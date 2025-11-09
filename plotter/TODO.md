@@ -1,0 +1,4 @@
+- Motor naming convention (X/Y makes no sense, use A/B, FWD/REV).
+- Look for a parsing library.
+- Loop/interrupt instruction model so we can pause what's going on.
+- Rewrite Calib so that we're not repeating ourselves so much.

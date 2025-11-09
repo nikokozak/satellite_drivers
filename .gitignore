@@ -1,0 +1,34 @@
+# Documentation
+documentation/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Project specific cache
+*.cache
+*.keras
+*.h5
+
+# Data directories
+raw_data/
+sample_images/
