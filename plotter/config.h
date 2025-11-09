@@ -6,8 +6,8 @@
 #define Y_MOTOR 2
 #define LEFT 0
 #define RIGHT 1
-#define UP 1
-#define DOWN 0
+#define UP 0
+#define DOWN 1
 
 // Limit Switches
 #define Y_MIN_SWITCH A3
