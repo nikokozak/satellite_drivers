@@ -33,9 +33,9 @@
 
 // Acceleration parameters
 #define ENABLE_ACCELERATION true  // Set to false to disable acceleration/deceleration
-#define ACCEL_STEPS 100           // Number of steps to accelerate/decelerate over
-#define MIN_STEP_DELAY 100        // Full speed delay (microseconds) - same as STEP_DELAY
-#define MAX_STEP_DELAY 500        // Starting/ending speed delay (microseconds) - slower = gentler
+#define ACCEL_RAMP_STEPS 100      // Number of steps to accelerate/decelerate over
+#define ACCEL_MIN_DELAY 100       // Full speed delay (microseconds) - same as STEP_DELAY
+#define ACCEL_MAX_DELAY 500       // Starting/ending speed delay (microseconds) - slower = gentler
 
 // Movement Reporting (how often/steps do we report back our coordinates to the host)
 #define REPORT_EVERY_X_STEPS 50 // How often to report back to host

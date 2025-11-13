@@ -751,15 +751,15 @@ void moveMotor(int motor, int dir, int steps) {
 
       // Calculate step delay for acceleration/deceleration
       int currentDelay = STEP_DELAY;
-      if (ENABLE_ACCELERATION && steps > ACCEL_STEPS * 2) {
+      if (ENABLE_ACCELERATION && steps > ACCEL_RAMP_STEPS * 2) {
         // Accelerate at start
-        if (i < ACCEL_STEPS) {
-          currentDelay = MAX_STEP_DELAY - ((MAX_STEP_DELAY - MIN_STEP_DELAY) * i / ACCEL_STEPS);
+        if (i < ACCEL_RAMP_STEPS) {
+          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * i / ACCEL_RAMP_STEPS);
         }
         // Decelerate at end
-        else if (i >= steps - ACCEL_STEPS) {
+        else if (i >= steps - ACCEL_RAMP_STEPS) {
           int stepsFromEnd = steps - i;
-          currentDelay = MAX_STEP_DELAY - ((MAX_STEP_DELAY - MIN_STEP_DELAY) * stepsFromEnd / ACCEL_STEPS);
+          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * stepsFromEnd / ACCEL_RAMP_STEPS);
         }
       }
 
@@ -804,15 +804,15 @@ void moveMotor(int motor, int dir, int steps) {
 
       // Calculate step delay for acceleration/deceleration
       int currentDelay = STEP_DELAY;
-      if (ENABLE_ACCELERATION && steps > ACCEL_STEPS * 2) {
+      if (ENABLE_ACCELERATION && steps > ACCEL_RAMP_STEPS * 2) {
         // Accelerate at start
-        if (i < ACCEL_STEPS) {
-          currentDelay = MAX_STEP_DELAY - ((MAX_STEP_DELAY - MIN_STEP_DELAY) * i / ACCEL_STEPS);
+        if (i < ACCEL_RAMP_STEPS) {
+          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * i / ACCEL_RAMP_STEPS);
         }
         // Decelerate at end
-        else if (i >= steps - ACCEL_STEPS) {
+        else if (i >= steps - ACCEL_RAMP_STEPS) {
           int stepsFromEnd = steps - i;
-          currentDelay = MAX_STEP_DELAY - ((MAX_STEP_DELAY - MIN_STEP_DELAY) * stepsFromEnd / ACCEL_STEPS);
+          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * stepsFromEnd / ACCEL_RAMP_STEPS);
         }
       }
 
