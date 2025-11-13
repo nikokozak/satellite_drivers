@@ -733,7 +733,7 @@ void moveMotor(int motor, int dir, int steps) {
   if (motor == X_MOTOR) {
     digitalWrite(X_DIR_PIN, dir);
     digitalWrite(Y_DIR_PIN, dir);
-    
+
     // Serial.println(F("Stepping X motor..."));
     for (int i = 0; i < steps; i++) {
       // Check for interrupt
@@ -742,19 +742,33 @@ void moveMotor(int motor, int dir, int steps) {
         shouldInterrupt = false;
         return;
       }
-      
+
       // Only check limit switches if not in calibration mode, or every X steps for efficiency
       if (!isCalibrating && (i % CHECK_SWITCH_EVERY_X_STEPS == 0) && isLimitSwitchTriggered(X_MOTOR, dir)) {
         Serial.println(F("WARNING: X-axis limit switch activated! Stopping movement."));
         break;
       }
-      
+
+      // Calculate step delay for acceleration/deceleration
+      int currentDelay = STEP_DELAY;
+      if (ENABLE_ACCELERATION && steps > ACCEL_STEPS * 2) {
+        // Accelerate at start
+        if (i < ACCEL_STEPS) {
+          currentDelay = MAX_STEP_DELAY - ((MAX_STEP_DELAY - MIN_STEP_DELAY) * i / ACCEL_STEPS);
+        }
+        // Decelerate at end
+        else if (i >= steps - ACCEL_STEPS) {
+          int stepsFromEnd = steps - i;
+          currentDelay = MAX_STEP_DELAY - ((MAX_STEP_DELAY - MIN_STEP_DELAY) * stepsFromEnd / ACCEL_STEPS);
+        }
+      }
+
       digitalWrite(X_STEP_PIN, HIGH);
       digitalWrite(Y_STEP_PIN, HIGH);
-      delayMicroseconds(STEP_DELAY);
+      delayMicroseconds(currentDelay);
       digitalWrite(X_STEP_PIN, LOW);
       digitalWrite(Y_STEP_PIN, LOW);
-      delayMicroseconds(STEP_DELAY);
+      delayMicroseconds(currentDelay);
 
       // Print progress every 100 steps
       if (i % REPORT_EVERY_X_STEPS == 0 && i > 0 && !isCalibrating) {
@@ -772,7 +786,7 @@ void moveMotor(int motor, int dir, int steps) {
   } else if (motor == Y_MOTOR) {
     digitalWrite(Y_DIR_PIN, dir);
     digitalWrite(X_DIR_PIN, !dir);
-    
+
     // Serial.println(F("Stepping Y motor..."));
     for (int i = 0; i < steps; i++) {
       // Check for interrupt
@@ -781,20 +795,34 @@ void moveMotor(int motor, int dir, int steps) {
         shouldInterrupt = false;
         return;
       }
-      
+
       // Only check limit switches if not in calibration mode, or every X steps for efficiency
       if (!isCalibrating && (i % CHECK_SWITCH_EVERY_X_STEPS == 0) && isLimitSwitchTriggered(Y_MOTOR, dir)) {
         Serial.println(F("WARNING: Y-axis limit switch activated! Stopping movement."));
         break;
       }
-      
+
+      // Calculate step delay for acceleration/deceleration
+      int currentDelay = STEP_DELAY;
+      if (ENABLE_ACCELERATION && steps > ACCEL_STEPS * 2) {
+        // Accelerate at start
+        if (i < ACCEL_STEPS) {
+          currentDelay = MAX_STEP_DELAY - ((MAX_STEP_DELAY - MIN_STEP_DELAY) * i / ACCEL_STEPS);
+        }
+        // Decelerate at end
+        else if (i >= steps - ACCEL_STEPS) {
+          int stepsFromEnd = steps - i;
+          currentDelay = MAX_STEP_DELAY - ((MAX_STEP_DELAY - MIN_STEP_DELAY) * stepsFromEnd / ACCEL_STEPS);
+        }
+      }
+
       digitalWrite(Y_STEP_PIN, HIGH);
       digitalWrite(X_STEP_PIN, HIGH);
-      delayMicroseconds(STEP_DELAY);
+      delayMicroseconds(currentDelay);
       digitalWrite(Y_STEP_PIN, LOW);
       digitalWrite(X_STEP_PIN, LOW);
-      delayMicroseconds(STEP_DELAY);
-      
+      delayMicroseconds(currentDelay);
+
       // Print progress every 100 steps
       if (i % REPORT_EVERY_X_STEPS == 0 && i > 0 && !isCalibrating) {
         int currentStepY = yCurrent + (dir == UP ? (i + 1) : -(i + 1));
