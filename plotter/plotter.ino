@@ -751,15 +751,18 @@ void moveMotor(int motor, int dir, int steps) {
 
       // Calculate step delay for acceleration/deceleration
       int currentDelay = STEP_DELAY;
-      if (ENABLE_ACCELERATION && steps > ACCEL_RAMP_STEPS * 2) {
+      if (ENABLE_ACCELERATION && steps > 10) {  // Apply to all moves > 10 steps
+        // For short moves, reduce the ramp steps proportionally
+        int effectiveRampSteps = min(ACCEL_RAMP_STEPS, steps / 2);
+
         // Accelerate at start
-        if (i < ACCEL_RAMP_STEPS) {
-          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * i / ACCEL_RAMP_STEPS);
+        if (i < effectiveRampSteps) {
+          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * i / effectiveRampSteps);
         }
         // Decelerate at end
-        else if (i >= steps - ACCEL_RAMP_STEPS) {
+        else if (i >= steps - effectiveRampSteps) {
           int stepsFromEnd = steps - i;
-          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * stepsFromEnd / ACCEL_RAMP_STEPS);
+          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * stepsFromEnd / effectiveRampSteps);
         }
       }
 
@@ -804,15 +807,18 @@ void moveMotor(int motor, int dir, int steps) {
 
       // Calculate step delay for acceleration/deceleration
       int currentDelay = STEP_DELAY;
-      if (ENABLE_ACCELERATION && steps > ACCEL_RAMP_STEPS * 2) {
+      if (ENABLE_ACCELERATION && steps > 10) {  // Apply to all moves > 10 steps
+        // For short moves, reduce the ramp steps proportionally
+        int effectiveRampSteps = min(ACCEL_RAMP_STEPS, steps / 2);
+
         // Accelerate at start
-        if (i < ACCEL_RAMP_STEPS) {
-          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * i / ACCEL_RAMP_STEPS);
+        if (i < effectiveRampSteps) {
+          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * i / effectiveRampSteps);
         }
         // Decelerate at end
-        else if (i >= steps - ACCEL_RAMP_STEPS) {
+        else if (i >= steps - effectiveRampSteps) {
           int stepsFromEnd = steps - i;
-          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * stepsFromEnd / ACCEL_RAMP_STEPS);
+          currentDelay = ACCEL_MAX_DELAY - ((ACCEL_MAX_DELAY - ACCEL_MIN_DELAY) * stepsFromEnd / effectiveRampSteps);
         }
       }
 
