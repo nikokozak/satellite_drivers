@@ -38,7 +38,7 @@
 #define ACCEL_MAX_DELAY 500       // Starting/ending speed delay (microseconds) - slower = gentler
 
 // Movement Reporting (how often/steps do we report back our coordinates to the host)
-#define REPORT_EVERY_X_STEPS 50 // How often to report back to host
+#define REPORT_EVERY_X_STEPS 300 // How often to report back to host
 
 // Safety checking
 #define CHECK_SWITCH_EVERY_X_STEPS 5 // How often to check limit switches during movement
